@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" 
+    integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" >
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+          <a href="/">
+            <i class="fa-regular fa-house"></i>
+            Home
+          </a>
+        </nav>
+    </header>
+
+    <div class="eventCard">
+        <h1>Upcoming Events</h1>
+
+        <% if (details) { %>
+                <div class="card">
+                    <h2><%= details.Title %></h2>
+                    <p class="description"><%= details.Description %></p>
+                    <p class="location">
+                        <i class="fa-solid fa-location-dot"></i> 
+                        Location: <%= details.Location %>
+                    </p>
+
+                    <div class="card-details">
+                        <span class="badge badge-date">
+                            <i class="fa-regular fa-calendar-days"></i> 
+                            Start on <%= new Date(details.eventDate).toDateString() %>
+                        </span>
+                        <span class="badge badge-capacity">
+                            <i class="fa-solid fa-users"></i> 
+                            Capacity: <%= details.Capacity %> people
+                        </span>
+                    </div>
+                    
+                    <div class="register">
+                        <form action="/detail/register" method="post">
+                            <input type="hidden" name="eventId" value="<%= details._id %>">
+                            <input type="text" name="fullName" placeholder="Write your full name" required >
+                            <input type="email" name="email" placeholder="example@gmail.com" required >
+                            <input type="tel" name="phone" maxlength="10" placeholder="+251-xx-xxx-xxx" required >
+                        <%    if(details.Capacity !== 0) {   %>
+                                <button type="submit">Register</button>
+                        <%    } else {  %>
+                                <p style="color: red; font-weight: 500; font-size: bold;">
+                                    <strong> 
+                                        Registration closed, maximum amount reached
+                                    </strong>
+                                </p>
+                        <%    }   %>
+                            
+                        </form>
+                    </div>
+                </div>
+        <% } else { %>
+            <div class="no-events">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <p>Post is no longer available</p>
+            </div>
+        <% } %>
+    </div>
+
+</body>
+</html>

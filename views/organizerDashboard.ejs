@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Event - Organizer Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" 
+  integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg==" 
+  crossorigin="anonymous" referrerpolicy="no-referrer" >
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #f4f6f8;
+      color: #333333;
+      min-height: 100vh;
+    }
+
+    /* Top Navigation Header */
+    header {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 14px 28px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #374151;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #2563eb;
+    }
+
+    /* Form Container */
+    .postEvent {
+      max-width: 520px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .postEvent h1 {
+      text-align: center;
+      font-size: 1.6rem;
+      letter-spacing: 0.5px;
+      color: #1f2937;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    /* Main Form Styling */
+    form {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Styling label spans so text sits on top of inputs */
+    form span {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    /* Shared styles for all form controls */
+    form input[type="text"],
+    form input[type="date"],
+    form textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: #1f2937;
+      background-color: #fafafa;
+      transition: all 0.2s ease-in-out;
+    }
+
+    form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Focus visual cues */
+    form input:focus,
+    form textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    /* Submit Button */
+    form button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: #2563eb;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    form button[type="submit"]:hover {
+      background-color: #1d4ed8;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="/">
+        <i class="fa-regular fa-house"></i>
+        Home
+      </a>
+      <a href="/admin/dashboard/register/list">
+        <i class="fa-solid fa-people-group"></i>
+        Participants
+      </a>
+    </nav>
+  </header>
+
+  <div class="postEvent">
+
+    <h1>POST YOUR EVENTS</h1>
+
+    <form action="/admin/post/event" method="post">
+
+      <input type="text" name="title" placeholder="Write event title" required />
+
+      <textarea name="description" placeholder="Write about your event" required></textarea>
+
+      <span>
+        Location
+        <input type="text" name="location" placeholder="location ex: Addis Ababa, Ethiopia" required />
+      </span>
+
+      <span>
+        Event Date
+        <input type="date" name="eventDate" required />
+      </span>
+
+      <span>
+        Capacity
+        <input type="number" name="capacity" placeholder="Write amount of people you can accept" required />
+      </span>
+
+      <button type="submit">Publish your event</button>
+    </form>
+  </div>
+
+</body>
+</html>

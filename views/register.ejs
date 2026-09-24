@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create a TaskFlow account and organize your daily tasks.">
+  <title>Create account | TaskFlow</title>
+  <link rel="shortcut icon" href="/favicon/taskflow-favicon.svg?v=2" type="image/svg+xml">
+  <link rel="icon" href="/favicon/taskflow-favicon.svg?v=2" type="image/svg+xml">
+
+  <meta name="theme-color" content="#6254e7">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="/taskflow-favicon.svg">
+  <link rel="apple-touch-icon" href="/taskflow-favicon.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="/auth.css">
+</head>
+
+<body class="auth-page">
+  <header class="auth-header">
+    <a class="brand" href="/" aria-label="LocalEvents home"><img src="/localevents-logo.svg" alt="LocalEvents"></a>
+    <p>Already have an account? <a href="/register/login">Sign in</a></p>
+  </header>
+
+  <main class="auth-main">
+    <section class="auth-card" aria-labelledby="page-title">
+      <div class="card-icon"><i class="fa-solid fa-user-plus"></i></div>
+      <p class="eyebrow">START YOUR JOURNEY</p>
+      <h1 id="page-title">Create your account</h1>
+      <p class="intro">Join our community and never miss an event again.</p>
+
+      <% if (locals.messages.errors) { %>
+        <% messages.errors.forEach(el=> { %><div class="alert" role="alert"><i
+              class="fa-solid fa-circle-exclamation"></i>
+            <%= el.msg %>
+          </div>
+          <% }) %>
+            <% } %>
+
+              <form action="/register/signup" method="POST">
+                <div class="field">
+                  <label for="userName">Username</label>
+                  <input id="userName" type="text"
+                    name="userName" placeholder="Choose a username" autocomplete="username" required>
+                  </div>
+                <div class="field">
+                  <label for="email">Email address</label>
+                  <input id="email" type="email" name="email"
+                    placeholder="you@example.com" autocomplete="email" required>
+                </div>
+                <div class="field"><label for="password">Password</label>
+                  <div class="password-field">
+                    <input id="password" type="password" name="password"
+                      placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required>
+                      <button
+                      type="button" class="password-toggle" aria-label="Show password" aria-controls="password"><i
+                        class="fa-solid fa-eye"></i>
+                      </button>
+                    </div>
+                </div>
+                <div class="field">
+                  <label for="confirmPassword">Confirm password</label>
+                  <div class="password-field">
+                    <input id="confirmPassword" type="password" name="confirmPassword"
+                      placeholder="Repeat your password" autocomplete="new-password" minlength="8" required>
+                    <button
+                      type="button" class="password-toggle" aria-label="Show password"
+                      aria-controls="confirmPassword">
+                      <i class="fa-solid fa-eye"></i>
+                    </button>
+                  </div>
+                </div>
+                <button class="submit-button" type="submit">Create account 
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </form>
+              
+              <p class="mobile-switch">Already have an account? 
+                <a href="/register/login">Sign in</a>
+              </p>
+    </section>
+  </main>
+  <footer>LocalEvents · Never miss an event again.</footer>
+
+  <script src="/password-visibility.js"></script>
+</body>
+
+</html>

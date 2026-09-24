@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Feed</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" 
+  integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg==" 
+  crossorigin="anonymous" referrerpolicy="no-referrer">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #f4f6f8;
+      color: #222222;
+      line-height: 1.6;
+    }
+
+    /* Top Navigation */
+    nav {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    nav h2 {
+      font-size: 1.2rem;
+      color: #111827;
+    }
+
+    /* Main Event Container */
+    .eventCard {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .eventCard h1 {
+      font-size: 1.75rem;
+      color: #111827;
+      margin-bottom: 24px;
+    }
+
+    /* Event Card Styles */
+    .card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h2 {
+      font-size: 1.35rem;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .card .description {
+      color: #4b5563;
+      margin-bottom: 12px;
+      font-size: 0.98rem;
+    }
+
+    .card .location {
+      color: #6b7280;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    /* Badges for Date & Capacity */
+    .card-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-top: 1px solid #f3f4f6;
+      padding-top: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .badge-date {
+      background-color: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .badge-capacity {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+
+    /* Fallback State */
+    .no-events {
+      text-align: center;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+      color: #6b7280;
+      border: 1px dashed #d1d5db;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+      <a style="text-decoration: none;" href="/events/history" target="dashboard">
+          <h2>
+              <i class="fa-solid fa-calendar-days"></i>
+              My Events
+          </h2>
+      </a>
+<%  if(User && User.role === 'admin') {  %>
+      <a style="text-decoration: none;" href="/admin/" target="dashboard">
+          <h2>
+              <i style="color: green;" class="fa-solid fa-chalkboard-user"></i>
+              Dashboard
+          </h2>
+      </a>
+  <%  }  %>
+
+  <%  if(User){    %>
+          <a style="text-decoration: none;" href="/register/logout" target="dashboard">
+            <h2>
+              <i style="color: red; rotate: 180deg;"
+               class="fa-solid fa-right-from-bracket"></i>
+              log out
+            </h2>
+          </a>
+  <%  } else {    %>
+          <a style="text-decoration: none;" href="/register/login" target="dashboard">
+            <h2>
+              <i style="color: green;" class="fa-solid fa-right-to-bracket"></i>
+              log in
+            </h2>
+          </a>
+  <%  }  %>
+
+  </nav>
+
+  <div class="eventCard">
+    <h1>Upcoming Events</h1>
+
+    <% if (events && events.length > 0) { %>
+      <% events.forEach(event => { %>
+        <div class="card"  onClick="window.location.href='/detail/<%= event._id %>' ">
+          <h2><%= event.Title %></h2>
+          <p class="description"><%= event.Description %></p>
+          <p class="location">📍 Location: <%= event.Location %></p>
+          
+          <div class="card-details">
+            <span class="badge badge-date">
+                <i class="fa-regular fa-calendar-days"></i> 
+                Start on <%= new Date(event.eventDate).toDateString() %>
+            </span>
+            <span class="badge badge-capacity">
+              👥 Capacity: <%= event.Capacity %> people
+            </span>
+          </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <div class="no-events">
+        <p>No events posted yet.</p>
+      </div>
+    <% } %>
+  </div>
+
+</body>
+</html>
