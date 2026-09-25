@@ -5,11 +5,11 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    Phone: {
+    phone: {
         type: Number,
         required: true
     },
-    Email:{ 
+    email:{ 
         type: String,
         required: true
     },

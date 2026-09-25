@@ -177,8 +177,8 @@
                     <h2>Event: <%= lists.eventId?.Title || 'N/A' %></h2>
                     <span class="event-date">Opening Date: <%= lists.eventId?.eventDate ? new Date(lists.eventId.eventDate).toLocaleDateString() : 'N/A' %></span>
                     <p><strong>Participant Name:</strong> <%= lists.fullName %></p>
-                    <p><strong>Phone:</strong> +251-<%= lists.Phone %></p>
-                    <p><strong>Email:</strong> <%= lists.Email %></p>
+                    <p><strong>Phone:</strong> +251-<%= lists.phone %></p>
+                    <p><strong>Email:</strong> <%= lists.email %></p>
                 </div>
             <% }) %>
         <% } else { %>

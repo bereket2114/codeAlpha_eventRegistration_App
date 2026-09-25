@@ -15,9 +15,13 @@ module.exports = {
 
     myEvent: async (req,res) => {
         try{
-            const myEvent = await eventSchema.find({userId: req.user.id}).populate("eventId").sort({createdAt: "desc"}).lean()
+        // Find all events registered by the user, populate the event details, and sort them by creation date in descending order
+            const userId = req.user.id
+            const myEvent = await eventSchema.find({userId: userId}).populate("eventId").sort({createdAt: "desc"}).lean()
+
             return res.render('myEvent',{ myEvent })
-        }catch (err){
+
+        } catch (err){
             console.log(err)
             return res.status(404).send("Page not found")
         }
@@ -36,34 +40,68 @@ module.exports = {
         }
     },
 
-    eventRegistration: async (req,res)=> {
-        try{
-            const {fullName, email, phone, eventId} = req.body
-            await eventSchema.create({
-                fullName: fullName,
-                Email: email,
-                Phone: phone,
-                eventId: eventId,
-                userId: req.user.id
-            })
 
-            const updatedDoc = await organizerSchema.findByIdAndUpdate( eventId ,
-                { $inc: { Capacity: -1 } },
-                { new: true } 
-            );
+    eventRegistration: async (req, res) => { 
 
-            if(!updatedDoc){
-                return res.status(404).send("Organizer not found")
-            }
-
-            return res.redirect('/')
-
-        } catch(err){
-            console.log(err)
-            return res.status(500).send("Server error")
-        }
-    },
+        try { 
     
+            // Get data from the form first
+            const { fullName, email, phone, eventId } = req.body;
+    
+            // Check if the user has already registered for this event
+            const alreadyRegistered = await eventSchema.findOne({ 
+                userId: req.user.id, 
+                eventId: eventId 
+            }); 
+     
+            if (alreadyRegistered) {  
+                req.flash('errors', { 
+                    msg: 'You have already registered for this event.' 
+                }); 
+                return res.redirect('/events/feed'); 
+            } 
+     
+            // Find the event
+            const event = await organizerSchema.findById(eventId); 
+     
+            if (!event) { 
+                return res.status(404).send("Event not found"); 
+            } 
+     
+            // Check event capacity
+            if (event.Capacity <= 0) { 
+                return res.status(400).send("This event is full"); 
+            } 
+     
+            // Create registration
+            await eventSchema.create({ 
+                fullName: fullName, 
+                email: email, 
+                phone: phone, 
+                eventId: eventId, 
+                userId: req.user.id 
+            }); 
+     
+            // Decrement capacity by 1
+            const updatedDoc = await organizerSchema.findByIdAndUpdate(
+                eventId, 
+                { $inc: { Capacity: -1 } }, 
+                { new: true }  
+            ); 
+    
+            // Check if the update was successful
+            if (!updatedDoc) { 
+                return res.status(404).send("Organizer not found"); 
+            } 
+     
+            return res.redirect('/'); 
+     
+        } catch (err) { 
+            console.log(err); 
+            return res.status(500).send("Server error"); 
+        } 
+    },
+
     cancelEvent: async (req,res) =>{
         try{
             const id = req.params.id
@@ -77,7 +115,11 @@ module.exports = {
 
             if(!cancelRegistration){
                 return res.status(404).send("Registration not found")
-            }    
+            } 
+
+            if (cancelRegistration.userId.toString() !== req.user._id.toString()) {
+                return res.status(403).send("You are not allowed to cancel this registration");
+            }   
 
             if(!updatedDoc){
                 return res.status(404).send("Event not found")

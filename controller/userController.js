@@ -114,10 +114,13 @@ postRegister : async (req, res, next) => {
       ]
     })
 
-    if (existingUser) {
-        req.flash('errors', { msg: 'Account with that email address or username already exists.' })   
-    }
+if (existingUser) {
+    req.flash('errors', {
+        msg: 'Account with that email address or username already exists.'
+    });
 
+    return res.redirect('/register/signup');
+}
 // If the user is new check if the user is the first user or not and assign him a role.
     let role; 
     const checkDb = await User.find({});
@@ -131,7 +134,7 @@ postRegister : async (req, res, next) => {
     
     const user = new User({
         userName: req.body.userName,
-        Email: req.body.email,
+        email: req.body.email,
         password: req.body.password,
         role: role
     })
