@@ -211,7 +211,7 @@ This repository is a development/learning project and should be reviewed before 
 
 **Bereket Woldemariyam**
 
-Full-Stack Software Engineering learner interested in building maintainable web applications with clear architecture, practical backend logic, and user-focused interfaces.
+Back-end & Full-Stack Software Engineering learner interested in building maintainable web applications with clear architecture, practical backend logic, and user-focused interfaces.
 
 ---
 
