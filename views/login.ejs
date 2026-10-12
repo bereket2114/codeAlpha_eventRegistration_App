@@ -1,73 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sign in to LocalEvents and manage your daily events.">
-  <title>Sign in | LocalEvents</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    crossorigin="anonymous" referrerpolicy="no-referrer">
-  <link rel="stylesheet" href="/auth.css">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Sign in | LocalEvents</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/auth.css">
 </head>
-
 <body class="auth-page">
-  <header class="auth-header">
-    <a class="brand" href="/" aria-label="LocalEvents home"><img src="/localevents-logo.svg" alt="LocalEvents"></a>
-    <p>New to LocalEvents? <a href="/register/signup">Create account</a></p>
-  </header>
-
-  <main class="auth-main">
-    <section class="auth-card" aria-labelledby="page-title">
-      <div class="card-icon"><i class="fa-solid fa-arrow-right-to-bracket"></i></div>
-      <p class="eyebrow">WELCOME BACK</p>
-      <h1 id="page-title">Sign in to your LocalEvents</h1>
-      <p class="intro">Pick up your events and be a part of our community.</p>
-
-      <% if (locals.messages.errors) { %>
-        <% messages.errors.forEach(el=> { %><div class="alert" role="alert"><i
-              class="fa-solid fa-circle-exclamation"></i>
-            <%= el.msg %>
-          </div>
-          <% }) %>
-            <% } %>
-              <% if (locals.messages.info) { %>
-                <% messages.info.forEach(el=> { %><div class="alert" role="alert"><i
-                      class="fa-solid fa-circle-exclamation"></i>
-                    <%= el.msg %>
-                  </div>
-                  <% }) %>
-                    <% } %>
-
-                      <form action="/register/login" method="POST">
-                        <div class="field"><label for="email">Email address</label><input id="email" type="email"
-                            name="email" placeholder="you@example.com" autocomplete="email" required></div>
-                        <div class="field">
-                          <div class="field-label">
-                            <label for="password">Password</label>
-                            <a
-                              href="/forgot-password">Forgot password?
-                            </a>
-                          </div>
-                          <div class="password-field">
-                            <input id="password" type="password" name="password"
-                              placeholder="Enter your password" autocomplete="current-password" required>
-                            <button
-                              type="button" class="password-toggle" aria-label="Show password"
-                              aria-controls="password"><i class="fa-solid fa-eye"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <button class="submit-button" type="submit">Sign in <i
-                            class="fa-solid fa-arrow-right"></i></button>
-                      </form>
-                      <p class="mobile-switch">? <a href="/register/signup">Create an account</a></p>
-    </section>
-  </main>
-
-  <footer>LocalEvents · Never miss an event again.</footer>
-
-  <script src="/password-visibility.js"></script>
+  <header class="auth-header"><a class="wordmark" href="/"><span class="wordmark__icon"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></span>LocalEvents</a><p>New here? <a href="/register/signup">Create an account</a></p></header>
+  <main class="auth-main"><section class="auth-card" aria-labelledby="sign-in-title"><span class="wordmark__icon"><i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i></span><p class="page-kicker">Welcome back</p><h1 id="sign-in-title">Sign in to LocalEvents</h1><p class="intro">Access your registrations and return to events that matter to you.</p>
+    <% if (locals.messages && locals.messages.errors) { %><% messages.errors.forEach(message => { %><div class="alert" role="alert"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><p><%= message.msg %></p></div><% }) %><% } %>
+    <% if (locals.messages && locals.messages.info) { %><% messages.info.forEach(message => { %><div class="alert alert--success" role="status"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p><%= message.msg %></p></div><% }) %><% } %>
+    <form action="/register/login" method="POST" class="form-grid"><div class="form-field"><label for="email">Email address</label><input id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required></div><div class="form-field password-field"><label for="password">Password</label><input id="password" type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required><button class="password-toggle" type="button" aria-label="Show password" onclick="const password=document.getElementById('password'); const isHidden=password.type==='password'; password.type=isHidden?'text':'password'; this.setAttribute('aria-label',isHidden?'Hide password':'Show password'); this.querySelector('i').className=isHidden?'fa-solid fa-eye-slash':'fa-solid fa-eye';"><i class="fa-solid fa-eye" aria-hidden="true"></i></button></div><button type="submit" class="button button--primary button--wide">Sign in <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></form>
+    <p class="mobile-switch">New to LocalEvents? <a href="/register/signup">Create an account</a></p></section></main>
+  <footer class="site-footer auth-footer">&copy; 2026 LocalEvents</footer>
 </body>
-
 </html>

@@ -3,190 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Event Feed</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" 
-  integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg==" 
-  crossorigin="anonymous" referrerpolicy="no-referrer">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background-color: #f4f6f8;
-      color: #222222;
-      line-height: 1.6;
-    }
-
-    /* Top Navigation */
-    nav {
-      background-color: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    nav h2 {
-      font-size: 1.2rem;
-      color: #111827;
-    }
-
-    /* Main Event Container */
-    .eventCard {
-      max-width: 720px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .eventCard h1 {
-      font-size: 1.75rem;
-      color: #111827;
-      margin-bottom: 24px;
-    }
-
-    /* Event Card Styles */
-    .card {
-      background-color: #ffffff;
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 20px;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
-    }
-
-    .card h2 {
-      font-size: 1.35rem;
-      color: #1f2937;
-      margin-bottom: 8px;
-    }
-
-    .card .description {
-      color: #4b5563;
-      margin-bottom: 12px;
-      font-size: 0.98rem;
-    }
-
-    .card .location {
-      color: #6b7280;
-      font-size: 0.9rem;
-      font-weight: 500;
-      margin-bottom: 16px;
-    }
-
-    /* Badges for Date & Capacity */
-    .card-details {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      border-top: 1px solid #f3f4f6;
-      padding-top: 14px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .badge-date {
-      background-color: #e0f2fe;
-      color: #0369a1;
-    }
-
-    .badge-capacity {
-      background-color: #fef3c7;
-      color: #92400e;
-    }
-
-    /* Fallback State */
-    .no-events {
-      text-align: center;
-      background: #ffffff;
-      padding: 40px;
-      border-radius: 10px;
-      color: #6b7280;
-      border: 1px dashed #d1d5db;
-    }
-  </style>
+  <title>LocalEvents | Discover local events</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <nav>
-      <a style="text-decoration: none;" href="/events/history" target="dashboard">
-          <h2>
-              <i class="fa-solid fa-calendar-days"></i>
-              My Events
-          </h2>
-      </a>
-<%  if(User && User.role === 'admin') {  %>
-      <a style="text-decoration: none;" href="/admin/" target="dashboard">
-          <h2>
-              <i style="color: green;" class="fa-solid fa-chalkboard-user"></i>
-              Dashboard
-          </h2>
-      </a>
-  <%  }  %>
-
-  <%  if(User){    %>
-          <a style="text-decoration: none;" href="/register/logout" target="dashboard">
-            <h2>
-              <i style="color: red; rotate: 180deg;"
-               class="fa-solid fa-right-from-bracket"></i>
-              log out
-            </h2>
-          </a>
-  <%  } else {    %>
-          <a style="text-decoration: none;" href="/register/login" target="dashboard">
-            <h2>
-              <i style="color: green;" class="fa-solid fa-right-to-bracket"></i>
-              log in
-            </h2>
-          </a>
-  <%  }  %>
-
-  </nav>
-
-  <div class="eventCard">
-    <h1>Upcoming Events</h1>
-
-    <% if (events && events.length > 0) { %>
-      <% events.forEach(event => { %>
-        <div class="card"  onClick="window.location.href='/detail/<%= event._id %>' ">
-          <h2><%= event.Title %></h2>
-          <p class="description"><%= event.Description %></p>
-          <p class="location">📍 Location: <%= event.Location %></p>
-          
-          <div class="card-details">
-            <span class="badge badge-date">
-                <i class="fa-regular fa-calendar-days"></i> 
-                Start on <%= new Date(event.eventDate).toDateString() %>
-            </span>
-            <span class="badge badge-capacity">
-              👥 Capacity: <%= event.Capacity %> people
-            </span>
-          </div>
-        </div>
-      <% }) %>
-    <% } else { %>
-      <div class="no-events">
-        <p>No events posted yet.</p>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Main navigation">
+      <a class="wordmark" href="/"><span class="wordmark__icon"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></span>LocalEvents</a>
+      <div class="site-nav__links">
+        <% if (typeof User !== 'undefined' && User) { %>
+          <a class="nav-link" href="/events/history">My events</a>
+          <% if (User.role === 'admin') { %><a class="nav-link" href="/admin/">Organizer dashboard</a><% } %>
+          <a class="nav-link" href="/register/logout">Sign out</a>
+        <% } else { %>
+          <a class="nav-link" href="/register/login">Sign in</a>
+          <a class="nav-link nav-link--primary" href="/register/signup">Create account</a>
+        <% } %>
       </div>
-    <% } %>
-  </div>
+    </nav>
+  </header>
 
+  <main class="page-container">
+    <section class="discovery-intro" aria-labelledby="page-title">
+      <div class="discovery-intro__copy">
+        <p class="page-kicker">Community, made easy</p>
+        <h1 id="page-title" class="page-title">Find something worth showing up for.</h1>
+        <p class="page-subtitle">Discover local experiences, connect with your community, and reserve your place in a few simple steps.</p>
+      </div>
+      <p class="discovery-intro__note">Browse the latest events near you.</p>
+    </section>
+
+    <section class="page-section" aria-labelledby="upcoming-events">
+      <% if (locals.messages && locals.messages.errors) { %>
+        <% messages.errors.forEach(message => { %><div class="alert" role="alert"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><p><%= message.msg %></p></div><% }) %>
+      <% } %>
+      <% if (locals.messages && locals.messages.success) { %>
+        <% messages.success.forEach(message => { %><div class="alert alert--success" role="status"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><p><%= message.msg %></p></div><% }) %>
+      <% } %>
+
+      <div class="content-heading">
+        <h2 id="upcoming-events" class="section-title">Upcoming events</h2>
+        <% if (events && events.length > 0) { %><p><%= events.length %> event<%= events.length === 1 ? '' : 's' %> available</p><% } %>
+      </div>
+
+      <% if (events && events.length > 0) { %>
+        <div class="event-grid">
+          <% events.forEach(event => {
+            const eventDate = event.eventDate ? new Date(event.eventDate) : null;
+            const validDate = eventDate && !Number.isNaN(eventDate.getTime());
+            const isFull = Number(event.Capacity) <= 0;
+          %>
+            <a href="/detail/<%= event._id %>" class="event-card" aria-label="View details for <%= event.Title %>">
+              <div class="event-card__image">
+                <% if (event.Image) { %><img src="<%= event.Image %>" alt="<%= event.Title %>"><% } else { %><i class="fa-regular fa-image" aria-hidden="true"></i><span>Event image</span><% } %>
+              </div>
+              <div class="event-card__date" aria-label="<%= validDate ? eventDate.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' }) : 'Date to be confirmed' %>">
+                <span class="event-card__date-month"><%= validDate ? eventDate.toLocaleDateString(undefined, { month: 'short' }) : 'TBA' %></span>
+                <span class="event-card__date-day"><%= validDate ? eventDate.getDate() : '—' %></span>
+              </div>
+              <div class="event-card__body">
+                <h3 class="event-card__title"><%= event.Title %></h3>
+                <p class="event-card__description"><%= event.Description %></p>
+                <div class="event-card__meta">
+                  <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span class="event-card__meta-text"><%= event.Location %></span></span>
+                  <span class="event-card__capacity <%= isFull ? 'event-card__capacity--full' : '' %>"><i class="fa-solid fa-users" aria-hidden="true"></i><%= isFull ? 'Registration closed' : `${event.Capacity} spaces available` %></span>
+                </div>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="empty-state"><i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i><h2>No upcoming events yet</h2><p>New gatherings will appear here as soon as they are published.</p></div>
+      <% } %>
+    </section>
+  </main>
+  <footer class="site-footer">&copy; 2026 LocalEvents &middot; Discover, connect, and take part.</footer>
 </body>
 </html>

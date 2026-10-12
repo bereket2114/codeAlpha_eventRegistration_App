@@ -1,74 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Details</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" 
-    integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg==" 
-    crossorigin="anonymous" referrerpolicy="no-referrer" >
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= details ? details.Title : 'Event details' %> | LocalEvents</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/style.css">
 </head>
 <body>
-
-    <header>
-        <nav>
-          <a href="/">
-            <i class="fa-regular fa-house"></i>
-            Home
-          </a>
-        </nav>
-    </header>
-
-    <div class="eventCard">
-        <h1>Upcoming Events</h1>
-
-        <% if (details) { %>
-                <div class="card">
-                    <h2><%= details.Title %></h2>
-                    <p class="description"><%= details.Description %></p>
-                    <p class="location">
-                        <i class="fa-solid fa-location-dot"></i> 
-                        Location: <%= details.Location %>
-                    </p>
-
-                    <div class="card-details">
-                        <span class="badge badge-date">
-                            <i class="fa-regular fa-calendar-days"></i> 
-                            Start on <%= new Date(details.eventDate).toDateString() %>
-                        </span>
-                        <span class="badge badge-capacity">
-                            <i class="fa-solid fa-users"></i> 
-                            Capacity: <%= details.Capacity %> people
-                        </span>
-                    </div>
-                    
-                    <div class="register">
-                        <form action="/detail/register" method="post">
-                            <input type="hidden" name="eventId" value="<%= details._id %>">
-                            <input type="text" name="fullName" placeholder="Write your full name" required >
-                            <input type="email" name="email" placeholder="example@gmail.com" required >
-                            <input type="tel" name="phone" maxlength="10" placeholder="+251-xx-xxx-xxx" required >
-                        <%    if(details.Capacity !== 0) {   %>
-                                <button type="submit">Register</button>
-                        <%    } else {  %>
-                                <p style="color: red; font-weight: 500; font-size: bold;">
-                                    <strong> 
-                                        Registration closed, maximum amount reached
-                                    </strong>
-                                </p>
-                        <%    }   %>
-                            
-                        </form>
-                    </div>
-                </div>
-        <% } else { %>
-            <div class="no-events">
-                <i class="fa-solid fa-circle-exclamation"></i>
-                <p>Post is no longer available</p>
-            </div>
-        <% } %>
-    </div>
-
+  <header class="site-header"><nav class="site-nav" aria-label="Main navigation"><a class="wordmark" href="/"><span class="wordmark__icon"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></span>LocalEvents</a><div class="site-nav__links"><a class="nav-link" href="/">All events</a><a class="nav-link" href="/events/history">My events</a></div></nav></header>
+  <main class="page-container page-section">
+    <% if (details) { const eventDate = details.eventDate ? new Date(details.eventDate) : null; const validDate = eventDate && !Number.isNaN(eventDate.getTime()); const isFull = Number(details.Capacity) <= 0; %>
+      <div class="event-detail">
+        <article>
+          <a class="back-link" href="/"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i>All events</a>
+          <p class="page-kicker">Event details</p><h1 class="event-detail__title"><%= details.Title %></h1>
+          <div class="event-detail__metadata">
+            <div class="meta-item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><div><span class="meta-item__label">Location</span><span class="meta-item__value"><%= details.Location %></span></div></div>
+            <div class="meta-item"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i><div><span class="meta-item__label">Date</span><span class="meta-item__value"><%= validDate ? eventDate.toLocaleDateString(undefined, { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' }) : 'To be confirmed' %></span></div></div>
+            <div class="meta-item"><i class="fa-solid fa-users" aria-hidden="true"></i><div><span class="meta-item__label">Availability</span><span class="meta-item__value"><%= isFull ? 'Registration closed' : `${details.Capacity} spaces available` %></span></div></div>
+          </div>
+          <p class="event-detail__description"><%= details.Description %></p>
+        </article>
+        <aside>
+          <div class="event-detail__image"><% if (details.Image) { %><img src="<%= details.Image %>" alt="<%= details.Title %>"><% } else { %><div><i class="fa-regular fa-image" aria-hidden="true"></i><span>Event image</span></div><% } %></div>
+          <section class="registration-panel" aria-labelledby="registration-title">
+            <p class="panel-kicker"><%= isFull ? 'Unavailable' : 'Save your place' %></p><h2 id="registration-title" class="panel-title"><%= isFull ? 'Registration is closed' : 'Register for this event' %></h2>
+            <% if (!isFull) { %>
+              <p class="panel-copy">Enter your details and we’ll reserve your spot.</p>
+              <form action="/detail/register" method="post" class="form-grid"><input type="hidden" name="eventId" value="<%= details._id %>"><div class="form-field"><label for="fullName">Full name</label><input id="fullName" type="text" name="fullName" autocomplete="name" required></div><div class="form-field"><label for="email">Email address</label><input id="email" type="email" name="email" autocomplete="email" required></div><div class="form-field"><label for="phone">Phone number</label><input id="phone" type="tel" name="phone" autocomplete="tel" maxlength="10" required><span class="form-field__hint">Use the number you normally use for event contact.</span></div><button type="submit" class="button button--primary button--wide">Register now</button></form>
+            <% } else { %><div class="availability"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>This event has reached its current capacity. Please check back for future events.</span></div><% } %>
+          </section>
+        </aside>
+      </div>
+    <% } else { %><div class="empty-state page-section--narrow"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><h1>This event is no longer available</h1><p>It may have been removed or the link is no longer valid.</p><a class="button button--secondary" href="/">Browse events</a></div><% } %>
+  </main>
+  <footer class="site-footer">&copy; 2026 LocalEvents &middot; Discover, connect, and take part.</footer>
 </body>
 </html>
