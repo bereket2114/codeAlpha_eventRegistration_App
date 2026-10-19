@@ -1,19 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Organizer Dashboard | LocalEvents</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organizer Dashboard | LocalEvents</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
-  <header class="site-header"><nav class="site-nav" aria-label="Main navigation"><a class="wordmark" href="/"><span class="wordmark__icon"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></span>LocalEvents</a><div class="site-nav__links"><a class="nav-link" href="/">Event discovery</a><a class="nav-link" href="/admin/dashboard/register/list">Participants</a></div></nav></header>
-  <main class="page-container page-section">
-    <div class="organizer-layout">
-      <section class="organizer-intro" aria-labelledby="page-title"><p class="page-kicker">Organizer workspace</p><h1 id="page-title" class="page-title">Publish an event</h1><p class="page-subtitle">Create a clear, helpful event listing your community can trust.</p><div class="organizer-links"><a href="/admin/dashboard/register/list"><i class="fa-solid fa-people-group" aria-hidden="true"></i>View participant registrations</a><a href="/"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>View public events</a></div></section>
-      <section class="form-panel" aria-labelledby="event-form-title"><p class="panel-kicker">New listing</p><h2 id="event-form-title" class="panel-title">Event information</h2><p class="panel-copy">Add the essential details attendees need before they register.</p>
-        <form action="/admin/post/event" method="post" class="form-grid"><div class="form-field"><label for="title">Event title</label><input id="title" type="text" name="title" placeholder="Name of your event" required></div><div class="form-field"><label for="description">Description</label><textarea id="description" name="description" placeholder="What can attendees expect?" rows="5" required></textarea></div><div class="form-grid form-grid--two"><div class="form-field"><label for="location">Location</label><input id="location" type="text" name="location" placeholder="Venue or area" required></div><div class="form-field"><label for="eventDate">Event date</label><input id="eventDate" type="date" name="eventDate" required></div></div><div class="form-field"><label for="capacity">Capacity</label><input id="capacity" type="number" name="capacity" min="1" placeholder="Number of attendees" required></div><div class="form-actions"><button type="submit" class="button button--primary">Publish event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div></form>
-      </section>
-    </div>
-  </main>
+      <header class="site-header">
+          <nav class="site-nav" aria-label="Main navigation"><a class="wordmark" href="/"><span class="wordmark__icon"><i
+                  class="fa-regular fa-calendar-days" aria-hidden="true"></i></span>LocalEvents</a>
+            <div class="site-nav__links"><a class="nav-link" href="/">Event discovery</a><a class="nav-link"
+                href="/admin/dashboard/register/list">Participants</a></div>
+          </nav>
+      </header>
+      <main class="page-container page-section">
+          <div class="organizer-layout">
+                <section class="organizer-intro" aria-labelledby="page-title">
+                    <p class="page-kicker">Organizer workspace</p>
+                    <h1 id="page-title" class="page-title">Publish an event</h1>
+                    <p class="page-subtitle">Create a clear, helpful event listing your community can trust.</p>
+
+                    <div class="organizer-links"><a href="/admin/dashboard/register/list"><i class="fa-solid fa-people-group"
+                          aria-hidden="true"></i>View participant registrations</a><a href="/"><i
+                          class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>View public events</a>
+                    </div>
+
+                </section>
+
+                <section class="form-panel" aria-labelledby="event-form-title">
+                    <p class="panel-kicker">New listing</p>
+                    <h2 id="event-form-title" class="panel-title">Event information</h2>
+                    <p class="panel-copy">Add the essential details attendees need before they register.</p>
+            
+                    <form action="/admin/post/event" method="post" class="form-grid"  enctype="multipart/form-data">
+
+                      <div class="form-field">
+                          <label for="title">Event title</label>
+                          <input id="title" type="text" name="title"  placeholder="Name of your event" required>
+                      </div>
+
+                      <div class="form-field">
+                          <label for="description">Description</label>
+                          <textarea id="description"
+                                name="description" placeholder="What can attendees expect?" rows="5" required>
+                          </textarea>
+                      </div>
+
+                      <div class="form-grid form-grid--two">
+                            <div class="form-field"><label for="location">Location</label><input id="location" type="text"
+                                  name="location" placeholder="Venue or area" required>
+                            </div>
+                            <div class="form-field"><label for="eventDate">Event date</label><input id="eventDate" type="date"
+                                  name="eventDate" required>
+                            </div>
+                      </div>
+
+                      <div class="form-field">
+                            <label for="capacity">Capacity</label>
+                            <input id="capacity" type="number"  name="capacity" min="1" placeholder="Number of attendees" required>
+                      </div>
+
+                      <div class="form-field">
+                            <label>Upload image</label>
+                            <input required type="file" name="event_image" accept="image/*" >
+                      </div>
+
+                      <div class="form-actions">
+                            <button type="submit" class="button button--primary">
+                                Publish event 
+                                <i
+                                  class="fa-solid fa-arrow-right" aria-hidden="true">
+                                </i>
+                            </button>
+                      </div>
+                    </form>
+                  
+                </section>
+          </div>
+      </main>
   <footer class="site-footer">&copy; 2026 LocalEvents &middot; Discover, connect, and take part.</footer>
 </body>
+
 </html>

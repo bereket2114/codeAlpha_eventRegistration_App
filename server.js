@@ -1,3 +1,6 @@
+//Make my environmental variable at the top to prevent the connection(in case!)
+require('dotenv').config({path: './config/.env'})
+
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
@@ -13,8 +16,6 @@ const organizerRoute = require('./route/organizerRoute')
 const feedPage = require('./route/registrationRoute')
 const auth = require('./route/userRoutes')
 
-
-require('dotenv').config({path: './config/.env'})
 
 // Passport config
 require('./config/passportConfig')(passport)

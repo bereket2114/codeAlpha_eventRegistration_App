@@ -11,7 +11,7 @@ module.exports = {
             console.log(err)
             return res.status(404).send('Page Not Found')
         }
-    },
+    }, 
 
     myEvent: async (req,res) => {
         try{

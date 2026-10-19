@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +8,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
   <header class="site-header">
     <nav class="site-nav" aria-label="Main navigation">
-      <a class="wordmark" href="/"><span class="wordmark__icon"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></span>LocalEvents</a>
+      <a class="wordmark" href="/"><span class="wordmark__icon"><i class="fa-regular fa-calendar-days"
+            aria-hidden="true"></i></span>LocalEvents</a>
       <div class="site-nav__links">
-        <% if (typeof User !== 'undefined' && User) { %>
+        <% if (typeof User !=='undefined' && User) { %>
           <a class="nav-link" href="/events/history">My events</a>
-          <% if (User.role === 'admin') { %><a class="nav-link" href="/admin/">Organizer dashboard</a><% } %>
-          <a class="nav-link" href="/register/logout">Sign out</a>
-        <% } else { %>
-          <a class="nav-link" href="/register/login">Sign in</a>
-          <a class="nav-link nav-link--primary" href="/register/signup">Create account</a>
-        <% } %>
+          <% if (User.role==='admin' ) { %><a class="nav-link" href="/admin/">Organizer dashboard</a>
+            <% } %>
+              <a class="nav-link" href="/register/logout">Sign out</a>
+              <% } else { %>
+                <a class="nav-link" href="/register/login">Sign in</a>
+                <a class="nav-link nav-link--primary" href="/register/signup">Create account</a>
+                <% } %>
       </div>
     </nav>
   </header>
@@ -32,55 +37,99 @@
       <div class="discovery-intro__copy">
         <p class="page-kicker">Community, made easy</p>
         <h1 id="page-title" class="page-title">Find something worth showing up for.</h1>
-        <p class="page-subtitle">Discover local experiences, connect with your community, and reserve your place in a few simple steps.</p>
+        <p class="page-subtitle">Discover local experiences, connect with your community, and reserve your place in a
+          few simple steps.</p>
       </div>
       <p class="discovery-intro__note">Browse the latest events near you.</p>
     </section>
 
     <section class="page-section" aria-labelledby="upcoming-events">
       <% if (locals.messages && locals.messages.errors) { %>
-        <% messages.errors.forEach(message => { %><div class="alert" role="alert"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><p><%= message.msg %></p></div><% }) %>
-      <% } %>
-      <% if (locals.messages && locals.messages.success) { %>
-        <% messages.success.forEach(message => { %><div class="alert alert--success" role="status"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><p><%= message.msg %></p></div><% }) %>
-      <% } %>
-
-      <div class="content-heading">
-        <h2 id="upcoming-events" class="section-title">Upcoming events</h2>
-        <% if (events && events.length > 0) { %><p><%= events.length %> event<%= events.length === 1 ? '' : 's' %> available</p><% } %>
-      </div>
-
-      <% if (events && events.length > 0) { %>
-        <div class="event-grid">
-          <% events.forEach(event => {
-            const eventDate = event.eventDate ? new Date(event.eventDate) : null;
-            const validDate = eventDate && !Number.isNaN(eventDate.getTime());
-            const isFull = Number(event.Capacity) <= 0;
-          %>
-            <a href="/detail/<%= event._id %>" class="event-card" aria-label="View details for <%= event.Title %>">
-              <div class="event-card__image">
-                <% if (event.Image) { %><img src="<%= event.Image %>" alt="<%= event.Title %>"><% } else { %><i class="fa-regular fa-image" aria-hidden="true"></i><span>Event image</span><% } %>
-              </div>
-              <div class="event-card__date" aria-label="<%= validDate ? eventDate.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' }) : 'Date to be confirmed' %>">
-                <span class="event-card__date-month"><%= validDate ? eventDate.toLocaleDateString(undefined, { month: 'short' }) : 'TBA' %></span>
-                <span class="event-card__date-day"><%= validDate ? eventDate.getDate() : '—' %></span>
-              </div>
-              <div class="event-card__body">
-                <h3 class="event-card__title"><%= event.Title %></h3>
-                <p class="event-card__description"><%= event.Description %></p>
-                <div class="event-card__meta">
-                  <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span class="event-card__meta-text"><%= event.Location %></span></span>
-                  <span class="event-card__capacity <%= isFull ? 'event-card__capacity--full' : '' %>"><i class="fa-solid fa-users" aria-hidden="true"></i><%= isFull ? 'Registration closed' : `${event.Capacity} spaces available` %></span>
-                </div>
-              </div>
-            </a>
+        <% messages.errors.forEach(message=> { %><div class="alert" role="alert"><i
+              class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+            <p>
+              <%= message.msg %>
+            </p>
+          </div>
           <% }) %>
-        </div>
-      <% } else { %>
-        <div class="empty-state"><i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i><h2>No upcoming events yet</h2><p>New gatherings will appear here as soon as they are published.</p></div>
-      <% } %>
+            <% } %>
+              <% if (locals.messages && locals.messages.success) { %>
+                <% messages.success.forEach(message=> { %><div class="alert alert--success" role="status"><i
+                      class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                    <p>
+                      <%= message.msg %>
+                    </p>
+                  </div>
+                  <% }) %>
+                    <% } %>
+
+                      <div class="content-heading">
+                        <h2 id="upcoming-events" class="section-title">Upcoming events</h2>
+                        <% if (events && events.length> 0) { %><p>
+                            <%= events.length %> event<%= events.length===1 ? '' : 's' %> available
+                          </p>
+                          <% } %>
+                      </div>
+
+                      <% if (events && events.length> 0) { %>
+                        <div class="event-grid">
+                          <% events.forEach(event=> {
+                            const eventDate = event.eventDate ? new Date(event.eventDate) : null;
+                            const validDate = eventDate && !Number.isNaN(eventDate.getTime());
+                            const isFull = Number(event.Capacity) <= 0; %>
+                              <a href="/detail/<%= event._id %>" class="event-card"
+                                  aria-label="View details for <%= event.Title %>">
+                                  <div class="event-card__image">
+                                      <% if (event.imageUrl) { %>
+                                          <img src="<%= event.imageUrl %>" alt="<%= event.Title %>">
+                                      <% } else { %>
+                                          <i class="fa-regular fa-image" aria-hidden="true"></i>
+                                          <span>
+                                              Event image
+                                          </span>
+                                      <% } %>
+                                  </div>
+                                  <div class="event-card__date"
+                                      aria-label="<%= validDate ? eventDate.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' }) : 'Date to be confirmed' %>">
+                                      <span class="event-card__date-month">
+                                        <%= validDate ? eventDate.toLocaleDateString(undefined, { month: 'short' }) : 'TBA'
+                                          %>
+                                      </span>
+                                      <span class="event-card__date-day">
+                                        <%= validDate ? eventDate.getDate() : '—' %>
+                                      </span>
+                                  </div>
+                                  <div class="event-card__body">
+                                      <h3 class="event-card__title">
+                                        <%= event.Title %>
+                                      </h3>
+                                      <p class="event-card__description">
+                                        <%= event.Description %>
+                                      </p>
+                                      <div class="event-card__meta">
+                                        <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span
+                                            class="event-card__meta-text">
+                                            <%= event.Location %>
+                                          </span></span>
+                                        <span
+                                          class="event-card__capacity <%= isFull ? 'event-card__capacity--full' : '' %>"><i
+                                            class="fa-solid fa-users" aria-hidden="true"></i>
+                                          <%= isFull ? 'Registration closed' : `${event.Capacity} spaces available` %>
+                                        </span>
+                                      </div>
+                                  </div>
+                              </a>
+                      <% }) %>
+                        </div>
+                      <% } else { %>
+                        <div class="empty-state"><i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i>
+                            <h2>No upcoming events yet</h2>
+                            <p>New gatherings will appear here as soon as they are published.</p>
+                        </div>
+                      <% } %>
     </section>
   </main>
   <footer class="site-footer">&copy; 2026 LocalEvents &middot; Discover, connect, and take part.</footer>
 </body>
+
 </html>

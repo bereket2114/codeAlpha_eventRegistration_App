@@ -9,14 +9,14 @@ const organizerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-/*    imageUrl:{
+    imageUrl:{
         type: String,
         required: true
     },
     cloudinaryId: {
         type: String,
         required: true
-    },   */
+    }, 
     eventDate:{
         type: Date,
         required: true
