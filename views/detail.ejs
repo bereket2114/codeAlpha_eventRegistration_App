@@ -72,8 +72,8 @@
             </h2>
             <% if (!isFull) { %>
               <p class="panel-copy">Enter your details and we’ll reserve your spot.</p>
-              <form action="/detail/register" method="post" class="form-grid"><input type="hidden" name="eventId"
-                  value="<%= details._id %>">
+              <form action="/detail/register" method="post" class="form-grid">
+                <input type="hidden" name="eventId"  value="<%= details._id %>">
                 <div class="form-field"><label for="fullName">Full name</label><input id="fullName" type="text"
                     name="fullName" autocomplete="name" required></div>
                 <div class="form-field"><label for="email">Email address</label><input id="email" type="email"
